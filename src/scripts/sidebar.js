@@ -495,15 +495,29 @@ class SideBar extends H5P.EventDispatcher {
         // Check text content for headers
         const chapterParams = this.parent.params.chapters[chapterId];
         const sectionParams = chapterParams.params.content[i].content;
-        const isText = sectionParams.library.split(' ')[0] === 'H5P.AdvancedText';
+        const isText = sectionParams.library.split(' ')[0] === 'H5P.AdvancedText' || sectionParams.library.split(' ')[0] === 'H5P.TextEditor';
 
         if (isText) {
           const text = document.createElement('div');
           text.innerHTML = sectionParams.params.text;
-          const headers = text.querySelectorAll('h2, h3');
+          const headers = text.querySelectorAll('h1, h2, h3, h4');
           for (let j = 0; j < headers.length; j++) {
             const header = headers[j];
             const sectionNode = this.createSectionLink(chapterId, i, header.textContent, j);
+
+            if (header.tagName.toLowerCase() === "h1") {
+              sectionNode.classList.add("titulo_1");
+            }
+            if (header.tagName.toLowerCase() === "h2") {
+              sectionNode.classList.add("titulo_2");
+            }
+            if (header.tagName.toLowerCase() === "h3") {
+              sectionNode.classList.add("titulo_3");
+            }
+            if (header.tagName.toLowerCase() === "h4") {
+              sectionNode.classList.add("titulo_4");
+            }
+
             sectionLinks.push(sectionNode);
             sectionsWrapper.appendChild(sectionNode);
           }
